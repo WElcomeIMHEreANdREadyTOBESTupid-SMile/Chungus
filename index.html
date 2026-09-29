@@ -152,14 +152,14 @@ async function typeMessage() {
 
             output.textContent = currentText + randomChar;
 
-            await wait(120);
+            await wait(20);
         }
 
         // Reveal the real character
         currentText += letter;
         output.textContent = currentText;
 
-        await wait(30);
+        await wait(10);
     }
 }
         
