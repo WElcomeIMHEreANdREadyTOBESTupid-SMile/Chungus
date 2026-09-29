@@ -132,7 +132,6 @@ async function typeMessage() {
         if (letter === " ") {
             currentText += " ";
             output.textContent = currentText;
-            await wait(20);
             continue;
         }
 
@@ -143,23 +142,21 @@ async function typeMessage() {
             continue;
         }
 
-        // Two visible glitch characters
-        for (let i = 0; i < 2; i++) {
-            const randomChar =
-                specialCharacters[
-                    Math.floor(Math.random() * specialCharacters.length)
-                ];
+        // Random symbol appears briefly
+        const randomChar =
+            specialCharacters[
+                Math.floor(Math.random() * specialCharacters.length)
+            ];
 
-            output.textContent = currentText + randomChar;
+        output.textContent = currentText + randomChar;
 
-            await wait(20);
-        }
+        await wait(35);
 
-        // Reveal the real character
+        // Replace it with the real letter
         currentText += letter;
         output.textContent = currentText;
 
-        await wait(10);
+        await wait(15);
     }
 }
         
