@@ -25,7 +25,6 @@
             line-height: 1.5;
             white-space: pre-wrap;
 
-            /* Center the main text */
             position: fixed;
             inset: 0;
             display: flex;
@@ -68,6 +67,20 @@
             overflow: hidden;
             display: none;
         }
+
+        #blackout {
+            position: fixed;
+            inset: 0;
+            background: black;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 100;
+            transition: opacity 1.5s ease;
+        }
+
+        #blackout.active {
+            opacity: 1;
+        }
     </style>
 </head>
 
@@ -89,6 +102,7 @@
 
     <div id="text"></div>
     <div id="redText"></div>
+    <div id="blackout"></div>
 
     <script>
         const message =
@@ -100,6 +114,7 @@
         const clickMe = document.getElementById("clickMe");
         const output = document.getElementById("text");
         const redText = document.getElementById("redText");
+        const blackout = document.getElementById("blackout");
 
         function wait(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
@@ -129,18 +144,29 @@
             const repeatedText =
                 "YOU'VE PUSHED THINGS FURTHER THAN YOU REALIZE. ";
 
-            while (true) {
+            while (redText.scrollHeight <= window.innerHeight * 2) {
                 redText.textContent += repeatedText;
-
-                if (redText.scrollHeight > window.innerHeight * 2) {
-                    break;
-                }
-
                 await wait(20);
             }
+
+            // Keep the red screen visible for 2 seconds
+            await wait(2000);
+
+            // Fade to black
+            blackout.classList.add("active");
+
+            await wait(1600);
+
+            // Attempt to close the tab
+            window.close();
+
+            // If the browser blocks window.close(),
+            // leave the page completely black.
+            document.body.innerHTML = "";
+            document.body.style.background = "black";
         }
 
-        // ONLY "c l i c k m e" starts the sequence
+        // ONLY "c l i c k me" starts the sequence
         clickMe.addEventListener("click", async () => {
             startScreen.style.display = "none";
 
@@ -148,12 +174,8 @@
 
             await typeMessage();
 
-            fillScreenWithRedText();
+            await fillScreenWithRedText();
         });
-
-  setTimeout(() => {
-    window.close();
-  }, 1000);
     </script>
 
 </body>
