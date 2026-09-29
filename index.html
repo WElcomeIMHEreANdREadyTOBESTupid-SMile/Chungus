@@ -129,24 +129,22 @@ async function typeMessage() {
 
     for (const letter of message) {
 
-        // Spaces appear normally
         if (letter === " ") {
             currentText += " ";
             output.textContent = currentText;
-            await wait(80);
+            await wait(20);
             continue;
         }
 
-        // Punctuation appears normally
         if (/[.,!?]/.test(letter)) {
             currentText += letter;
             output.textContent = currentText;
-            await wait(letter === "." ? 700 : 250);
+            await wait(letter === "." ? 500 : 100);
             continue;
         }
 
-        // Glitch through random characters slowly
-        for (let i = 0; i < 3; i++) {
+        // Two visible glitch characters
+        for (let i = 0; i < 2; i++) {
             const randomChar =
                 specialCharacters[
                     Math.floor(Math.random() * specialCharacters.length)
@@ -154,16 +152,14 @@ async function typeMessage() {
 
             output.textContent = currentText + randomChar;
 
-            // How long each random symbol stays visible
-            await wait(50);
+            await wait(120);
         }
 
-        // Reveal the actual character
+        // Reveal the real character
         currentText += letter;
         output.textContent = currentText;
 
-        // Pause before moving to the next character
-        await wait(20);
+        await wait(30);
     }
 }
         
