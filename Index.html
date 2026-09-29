@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BIG BIG CHUNGUS</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: black;
+            color: white;
+            font-family: monospace;
+            overflow: hidden;
+        }
+
+        #text {
+            padding: 40px;
+            font-size: 24px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+
+            /* Center the main text */
+            position: fixed;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #startScreen {
+            position: fixed;
+            inset: 0;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: monospace;
+            font-size: 24px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        #clickMe {
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        #clickMe:hover {
+            color: red;
+        }
+
+        #redText {
+            position: fixed;
+            inset: 0;
+            padding: 10px;
+            color: red;
+            font-size: 20px;
+            line-height: 1.2;
+            font-family: monospace;
+            overflow: hidden;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="startScreen">
+        <div>
+            MY FIRST NAME IS BIG
+            <br>
+            MY MIDDLE NAME IS BIG
+            <br>
+            MY LAST NAME IS CHUNGUS
+            <br>
+            <br>
+
+            <span id="clickMe">c l i c k &nbsp; m e</span>
+        </div>
+    </div>
+
+    <div id="text"></div>
+    <div id="redText"></div>
+
+    <script>
+        const message =
+            "You've pushed things further than you realize, and I won't keep overlooking it. " +
+            "Consider this your warning to stop before the situation gets worse. " +
+            "What happens next will depend entirely on the choices you make from this point forward..........";
+
+        const startScreen = document.getElementById("startScreen");
+        const clickMe = document.getElementById("clickMe");
+        const output = document.getElementById("text");
+        const redText = document.getElementById("redText");
+
+        function wait(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function typeMessage() {
+            let currentText = "";
+
+            for (const letter of message) {
+                currentText += letter;
+                output.textContent = currentText;
+
+                if (letter === ".") {
+                    await wait(500);
+                } else {
+                    await wait(20);
+                }
+            }
+        }
+
+        async function fillScreenWithRedText() {
+            await wait(1000);
+
+            output.style.display = "none";
+            redText.style.display = "block";
+
+            const repeatedText =
+                "YOU'VE PUSHED THINGS FURTHER THAN YOU REALIZE. ";
+
+            while (true) {
+                redText.textContent += repeatedText;
+
+                if (redText.scrollHeight > window.innerHeight * 2) {
+                    break;
+                }
+
+                await wait(20);
+            }
+        }
+
+        // ONLY "c l i c k m e" starts the sequence
+        clickMe.addEventListener("click", async () => {
+            startScreen.style.display = "none";
+
+            await wait(1000);
+
+            await typeMessage();
+
+            fillScreenWithRedText();
+        });
+    </script>
+
+</body>
+</html>
