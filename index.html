@@ -121,49 +121,51 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        async function typeMessage() {
-            let currentText = "";
+async function typeMessage() {
+    let currentText = "";
 
-            const specialCharacters =
-                "!@#$%^&*()-_=+[]{}<>?/\\|~";
+    const specialCharacters =
+        "!@#$%^&*()-_=+[]{}<>?/\\|~";
 
-            for (const letter of message) {
+    for (const letter of message) {
 
-                // Spaces appear normally
-                if (letter === " ") {
-                    currentText += " ";
-                    output.textContent = currentText;
-                    await wait(20);
-                    continue;
-                }
-
-                // Punctuation appears normally, but slightly slower
-                if (/[.,!?]/.test(letter)) {
-                    currentText += letter;
-                    output.textContent = currentText;
-                    await wait(letter === "." ? 500 : 100);
-                    continue;
-                }
-
-                // Glitch through random characters
-                for (let i = 0; i < 3; i++) {
-                    const randomChar =
-                        specialCharacters[
-                            Math.floor(Math.random() * specialCharacters.length)
-                        ];
-
-                    output.textContent = currentText + randomChar;
-
-                    await wait(50);
-                }
-
-                // Finally reveal the real character
-                currentText += letter;
-                output.textContent = currentText;
-
-                await wait(20);
-            }
+        // Spaces appear normally
+        if (letter === " ") {
+            currentText += " ";
+            output.textContent = currentText;
+            await wait(80);
+            continue;
         }
+
+        // Punctuation appears normally
+        if (/[.,!?]/.test(letter)) {
+            currentText += letter;
+            output.textContent = currentText;
+            await wait(letter === "." ? 700 : 250);
+            continue;
+        }
+
+        // Glitch through random characters slowly
+        for (let i = 0; i < 3; i++) {
+            const randomChar =
+                specialCharacters[
+                    Math.floor(Math.random() * specialCharacters.length)
+                ];
+
+            output.textContent = currentText + randomChar;
+
+            // How long each random symbol stays visible
+            await wait(250);
+        }
+
+        // Reveal the actual character
+        currentText += letter;
+        output.textContent = currentText;
+
+        // Pause before moving to the next character
+        await wait(100);
+    }
+}
 
         async function fillScreenWithRedText() {
             await wait(1000);
