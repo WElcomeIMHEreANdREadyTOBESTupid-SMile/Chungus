@@ -138,7 +138,7 @@ async function typeMessage() {
         if (/[.,!?]/.test(letter)) {
             currentText += letter;
             output.textContent = currentText;
-            await wait(letter === "." ? 500 : 100);
+            await wait(letter === "." ? 1000 : 100);
             continue;
         }
 
