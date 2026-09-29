@@ -121,20 +121,37 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        async function typeMessage() {
-            let currentText = "";
+async function typeMessage() {
+    let currentText = "";
 
-            for (const letter of message) {
-                currentText += letter;
-                output.textContent = currentText;
+    const specialCharacters = "!@#$%^&*()-_=+[]{}<>?/\\|~";
 
-                if (letter === ".") {
-                    await wait(500);
-                } else {
-                    await wait(20);
-                }
-            }
+    for (const letter of message) {
+        if (letter === " ") {
+            currentText += " ";
+            output.textContent = currentText;
+            await wait(20);
+            continue;
         }
+
+        // Show a random special character first
+        const randomChar =
+            specialCharacters[Math.floor(Math.random() * specialCharacters.length)];
+
+        output.textContent = currentText + randomChar;
+        await wait(80);
+
+        // Replace it with the actual character
+        currentText += letter;
+        output.textContent = currentText;
+
+        if (letter === ".") {
+            await wait(500);
+        } else {
+            await wait(20);
+        }
+    }
+}
 
         async function fillScreenWithRedText() {
             await wait(1000);
